@@ -7,16 +7,16 @@ const mocha = require("mocha");
 const path = require("path");
 const rimraf = require("rimraf");
 const sanitize = require("sanitize-filename");
-function TestTapeDeck(cassettePath, title, fn) {
-    return new MochaTapeDeck(cassettePath, title, fn);
+function TestVcr(cassettePath, title, fn) {
+    return new MochaVcr(cassettePath, title, fn);
 }
-exports.TestTapeDeck = TestTapeDeck;
-class TapeDeck {
+exports.TestVcr = TestVcr;
+class Vcr {
     constructor(cassettePath) {
         this.cassettePath = cassettePath;
     }
     createTest(title, fn) {
-        return new MochaTapeDeck(this.cassettePath, title, fn);
+        return new MochaVcr(this.cassettePath, title, fn);
     }
     removeAllCassettes() {
         return new Promise((res, rej) => {
@@ -31,8 +31,8 @@ class TapeDeck {
         });
     }
 }
-exports.TapeDeck = TapeDeck;
-class MochaTapeDeck extends mocha.Test {
+exports.Vcr = Vcr;
+class MochaVcr extends mocha.Test {
     constructor(cassettePath, title, fn) {
         super(title, fn);
         this.cassettePath = cassettePath;
@@ -98,7 +98,7 @@ class MochaTapeDeck extends mocha.Test {
                     }
                     else {
                         if (options.failIfNoCassette) {
-                            throw new Error('Expected cassette file for mocha tape-deck player does not exist');
+                            throw new Error('Expected cassette file for mocha vcr player does not exist');
                         }
                         this.recordCassette();
                     }
@@ -160,5 +160,5 @@ class MochaTapeDeck extends mocha.Test {
         return sanitize(filename || this.fullTitle()) + '.cassette';
     }
 }
-exports.MochaTapeDeck = MochaTapeDeck;
+exports.MochaVcr = MochaVcr;
 //# sourceMappingURL=index.js.map

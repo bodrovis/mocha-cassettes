@@ -1,21 +1,21 @@
 import { expect } from 'chai';
 import * as rp from 'request-promise';
-import { TapeDeck } from './../src/index';
+import { Vcr } from './../src/index';
 import express = require('express');
 import http = require('http');
 import path = require('path');
 
 const PORT = 8675;
-describe('Mocha Tape Deck', function() {
+describe('Mocha VCR', function() {
   let server: http.Server;
-  const deck = new TapeDeck(path.join(__dirname, 'cassettes'));
+  const vcr = new Vcr(path.join(__dirname, 'cassettes'));
   let response: any;
 
   beforeEach((done) => {
     const app = express();
     response = 'response1';
 
-    app.get('/test', (req, res) => {
+    app.get('/test', (_req, res) => {
       res.send(response);
     });
 
@@ -26,26 +26,26 @@ describe('Mocha Tape Deck', function() {
     server.close(done);
   });
 
-  after(() => deck.removeAllCassettes());
+  after(() => vcr.removeAllCassettes());
 
   describe('Mocks the http requests that were recorded', function() {
     // tests are executed in reverse order that they're compiled in
-    deck.createTest('can be written', async () => {
+    vcr.createTest('can be written', async () => {
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');
     })
       .recordCassette()
       .register(this);
 
-    deck.createTest('can be read with an async function', async () => {
+    vcr.createTest('can be read with an async function', async () => {
       response = 'incorrectResponse';
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');
     })
-      .playCassette('Mocha Tape Deck Mocks the http requests that were recorded can be written.cassette')
+      .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
       .register(this);
 
-    deck.createTest('can be read with a done param', (done) => {
+    vcr.createTest('can be read with a done param', (done) => {
       response = 'incorrectResponse';
       rp.get(`http://localhost:${PORT}/test`)
         .then((resp) => expect(resp).to.be.equal('response1'))
@@ -53,16 +53,16 @@ describe('Mocha Tape Deck', function() {
         .then(() => done())
         .catch(done);
     })
-      .playCassette('Mocha Tape Deck Mocks the http requests that were recorded can be written.cassette')
+      .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
       .register(this);
 
-    deck.createTest('can be read with a returned promise', () => {
+    vcr.createTest('can be read with a returned promise', () => {
       response = 'incorrectResponse';
 
       return rp.get(`http://localhost:${PORT}/test`)
         .then((resp) => expect(resp).to.be.equal('response1'));
     })
-      .playCassette('Mocha Tape Deck Mocks the http requests that were recorded can be written.cassette')
+      .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
       .register(this);
 
     it('will not affect non mocked cases', async () => {
@@ -74,13 +74,13 @@ describe('Mocha Tape Deck', function() {
 
   describe('Non specified action cases work as expected', function() {
     // the names for these tests must remain the same to map to the same fixture
-    deck.createTest('record case', async () => {
+    vcr.createTest('record case', async () => {
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');
     })
       .register(this)
 
-    deck.createTest('record case', async () => {
+    vcr.createTest('record case', async () => {
       response = 'incorrectResponse';
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');
@@ -89,23 +89,23 @@ describe('Mocha Tape Deck', function() {
   });
 
   describe('passes when there are no http calls made', function() {
-    deck.createTest('namespace collision', async () => {
+    vcr.createTest('namespace collision', async () => {
       expect(true).to.be.true
     })
       .register(this)
 
-    deck.createTest('namespace collision', () => {
+    vcr.createTest('namespace collision', () => {
       expect(true).to.be.true
     })
       .register(this)
 
-    deck.createTest('namespace collision', (done) => {
+    vcr.createTest('namespace collision', (done) => {
       expect(true).to.be.true
       done()
     })
       .register(this)
 
-    deck.createTest('namespace collision', () => {
+    vcr.createTest('namespace collision', () => {
       expect(true).to.be.true
 
       return Promise.resolve()
@@ -118,21 +118,21 @@ describe('Mocha Tape Deck', function() {
   // If it is implemented properly, then only the third test will fail, and it will be a timeout error
   describe('timeout suite', function() {
     // record
-    deck.createTest('can handle a timeout', async () => {
+    vcr.createTest('can handle a timeout', async () => {
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');
     })
       .register(this)
 
     // replay
-    deck.createTest('can handle a timeout', async () => {
+    vcr.createTest('can handle a timeout', async () => {
       response = 'incorrectResponse';
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');
     })
       .register(this)
 
-    //deck.createTest('can handle a timeout', (done) => {
+    //vcr.createTest('can handle a timeout', (done) => {
     //  setTimeout(() => {
     //    done()
     //  }, 10000)
@@ -141,7 +141,7 @@ describe('Mocha Tape Deck', function() {
     //  .register(this)
 
     // replay
-    deck.createTest('can handle a timeout', async () => {
+    vcr.createTest('can handle a timeout', async () => {
       response = 'incorrectResponse';
       const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp).to.be.equal('response1');

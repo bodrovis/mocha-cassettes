@@ -24,19 +24,19 @@ export interface IPlayable {
   playCassette(cassetteFileName?: string): ICompilable;
 }
 
-export function TestTapeDeck(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaTapeDeck {
-  return new MochaTapeDeck(cassettePath, title, fn);
+export function TestVcr(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaVcr {
+  return new MochaVcr(cassettePath, title, fn);
 }
 
-export class TapeDeck {
+export class Vcr {
   private cassettePath: string;
 
   constructor(cassettePath: string) {
     this.cassettePath = cassettePath;
   }
 
-  public createTest(title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaTapeDeck {
-    return new MochaTapeDeck(this.cassettePath, title, fn);
+  public createTest(title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaVcr {
+    return new MochaVcr(this.cassettePath, title, fn);
   }
 
   public removeAllCassettes(): Promise<void> {
@@ -48,7 +48,7 @@ export class TapeDeck {
   }
 }
 
-export class MochaTapeDeck extends mocha.Test implements ICompilable, IRecordable, IPlayable {
+export class MochaVcr extends mocha.Test implements ICompilable, IRecordable, IPlayable {
   private cassettePath: string;
   private fnPrefix: () => void;
   private fnSuffix: () => void;
@@ -133,7 +133,7 @@ export class MochaTapeDeck extends mocha.Test implements ICompilable, IRecordabl
             this.playCassette();
           } else {
             if (options.failIfNoCassette) {
-              throw new Error('Expected cassette file for mocha tape-deck player does not exist');
+              throw new Error('Expected cassette file for mocha vcr player does not exist');
             }
             this.recordCassette();
           }
