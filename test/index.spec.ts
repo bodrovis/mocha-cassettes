@@ -49,8 +49,10 @@ describe('Mocha VCR', function() {
     vcr.createTest('can be read with a done param', (done) => {
       response = 'incorrectResponse';
       got(`http://localhost:${PORT}/test`)
-        .then((resp) => expect(resp.body).to.be.equal('response1'))
-        .then(() => done())
+        .then((resp) => {
+          expect(resp.body).to.be.equal('response1');
+          done();
+        })
         .catch(done);
     })
       .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
@@ -136,7 +138,7 @@ describe('Mocha VCR', function() {
     //  setTimeout(() => {
     //    done()
     //  }, 10000)
-  //  })
+    //  })
     //  .timeout(500)
     //  .register(this)
 
