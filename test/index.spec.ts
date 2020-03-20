@@ -52,7 +52,7 @@ describe('Mocha VCR', function() {
           expect(resp.body).to.be.equal('response1');
         }).
         then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
-        catch(() => { done(); Promise.resolve(); });
+        catch(() => { console.log("======= BIDA"); done(); });
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
