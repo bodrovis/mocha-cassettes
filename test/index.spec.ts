@@ -47,11 +47,19 @@ describe('Mocha VCR', function() {
     ).register(this);
 
     vcr.createTest('can be read with a done param', (done) => {
-      return got(url, { prefixUrl: url_root })
-        .then((resp: any) => {
-          expect(resp.body).to.be.equal('response1');
-          done();
-        })
+      try {
+        got(url, { prefixUrl: url_root })
+          .then((resp: any) => {
+            expect(resp.body).to.be.equal('response1');
+          }).
+          then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
+          catch(() => { console.log("======= BIDA"); done(); }).
+          finally(() => { console.log("======= finallY"); done(); });
+      } catch {
+        console.log('bida!!!!!')
+      }
+
+
         //.
       //  then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
       //  catch(() => { console.log("======= BIDA"); done(); });
