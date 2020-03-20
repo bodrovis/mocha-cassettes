@@ -6,6 +6,8 @@ import path = require('path');
 import got from 'got';
 
 const PORT = 8675;
+const url = "test";
+const url_root = `http://localhost:${PORT}`;
 
 describe('Mocha VCR', function() {
   let server: http.Server;
@@ -43,9 +45,10 @@ describe('Mocha VCR', function() {
     ).register(this);
 
     vcr.createTest('can be read with a done param', (done) => {
-      got(`http://localhost:${PORT}/test`)
+      got(url, {prefixUrl: url_root})
         .then((resp: any) => {
           expect(resp.body).to.be.equal('response1');
+          resp.relove();
         }).then(() => {done()}, () => {done()}).catch(done);
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
