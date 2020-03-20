@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "tsc && mocha -r ts-node/register --recursive test/**/*.spec.ts --timeout 5000"
+    "test": "tsc && mocha -r ts-node/register --recursive test/**/*.spec.ts"
   },
   "dependencies": {
     "mocha": "^7.1.1",

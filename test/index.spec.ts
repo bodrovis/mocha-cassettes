@@ -18,7 +18,7 @@ describe('Mocha VCR', function() {
     const app = express();
     response = 'response1';
 
-    app.get('/test', (_req, res) => {
+    app.get(`/${url}`, (_req, res) => {
       res.send(response);
     });
 
@@ -50,9 +50,11 @@ describe('Mocha VCR', function() {
       return got(url, { prefixUrl: url_root })
         .then((resp: any) => {
           expect(resp.body).to.be.equal('response1');
-        }).
-        then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
-        catch(() => { console.log("======= BIDA"); done(); });
+          done();
+        })
+        //.
+      //  then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
+      //  catch(() => { console.log("======= BIDA"); done(); });
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
