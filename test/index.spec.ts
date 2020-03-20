@@ -48,7 +48,6 @@ describe('Mocha VCR', function() {
       got(url, {prefixUrl: url_root})
         .then((resp: any) => {
           expect(resp.body).to.be.equal('response1');
-          resp.relove();
         }).then(() => {done()}, () => {done()}).catch(done);
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
