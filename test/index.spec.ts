@@ -3,8 +3,8 @@ import { Vcr } from './../src/index';
 import express = require('express');
 import http = require('http');
 import path = require('path');
+import got from 'got';
 
-const got = require('got');
 const PORT = 8675;
 
 describe('Mocha VCR', function() {
@@ -30,42 +30,35 @@ describe('Mocha VCR', function() {
   after(() => vcr.removeAllCassettes());
 
   describe('Mocks the http requests that were recorded', function() {
-    // tests are executed in reverse order that they're compiled in
     vcr.createTest('can be written', async () => {
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .recordCassette()
-      .register(this);
+    }).recordCassette().register(this);
 
     vcr.createTest('can be read with an async function', async () => {
-      response = 'incorrectResponse';
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
-      .register(this);
+    }).playCassette(
+      'Mocha VCR mocks the http requests that were recorded can be written.cassette'
+    ).register(this);
 
     vcr.createTest('can be read with a done param', (done) => {
-      response = 'incorrectResponse';
       got(`http://localhost:${PORT}/test`)
         .then((resp: any) => {
           expect(resp.body).to.be.equal('response1');
-        })
-        .then(done, done)
-        .catch(done);
-    })
-      .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
-      .register(this);
+        }).then(() => {done()}, () => {done()}).catch(done);
+    }).playCassette(
+      'Mocha VCR mocks the http requests that were recorded can be written.cassette'
+    ).register(this);
 
     vcr.createTest('can be read with a returned promise', () => {
       response = 'incorrectResponse';
-
-      return got(`http://localhost:${PORT}/test`)
-        .then((resp: any) => expect(resp.body).to.be.equal('response1'));
-    })
-      .playCassette('Mocha VCR mocks the http requests that were recorded can be written.cassette')
-      .register(this);
+      return got(`http://localhost:${PORT}/test`).then((resp: any) => {
+        expect(resp.body).to.be.equal('response1');
+      });
+    }).playCassette(
+      'Mocha VCR mocks the http requests that were recorded can be written.cassette'
+    ).register(this);
 
     it('will not affect non mocked cases', async () => {
       response = 'incorrectResponse';
@@ -79,40 +72,34 @@ describe('Mocha VCR', function() {
     vcr.createTest('record case', async () => {
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .register(this)
+    }).register(this);
 
     vcr.createTest('record case', async () => {
       response = 'incorrectResponse';
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .register(this)
+    }).register(this);
   });
 
   describe('passes when there are no http calls made', function() {
     vcr.createTest('namespace collision', async () => {
-      expect(true).to.be.true
-    })
-      .register(this)
+      expect(true).to.be.true;
+    }).register(this);
 
     vcr.createTest('namespace collision', () => {
-      expect(true).to.be.true
-    })
-      .register(this)
+      expect(true).to.be.true;
+    }).register(this);
 
     vcr.createTest('namespace collision', (done) => {
-      expect(true).to.be.true
-      done()
-    })
-      .register(this)
+      expect(true).to.be.true;
+      done();
+    }).register(this);
 
     vcr.createTest('namespace collision', () => {
-      expect(true).to.be.true
+      expect(true).to.be.true;
 
-      return Promise.resolve()
-    })
-      .register(this)
+      return Promise.resolve();
+    }).register(this);
   });
 
   // Unskip this to test timeout cases. If timeout catching is not implemented properly a nock error like
@@ -123,16 +110,14 @@ describe('Mocha VCR', function() {
     vcr.createTest('can handle a timeout', async () => {
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .register(this)
+    }).register(this);
 
     // replay
     vcr.createTest('can handle a timeout', async () => {
       response = 'incorrectResponse';
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .register(this)
+    }).register(this);
 
     //vcr.createTest('can handle a timeout', (done) => {
     //  setTimeout(() => {
@@ -147,7 +132,6 @@ describe('Mocha VCR', function() {
       response = 'incorrectResponse';
       const resp = await got(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal('response1');
-    })
-      .register(this)
+    }).register(this);
   });
 });
