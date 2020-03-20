@@ -47,15 +47,12 @@ describe('Mocha VCR', function() {
     ).register(this);
 
     vcr.createTest('can be read with a done param', (done) => {
-      got(url, { prefixUrl: url_root })
+      return got(url, { prefixUrl: url_root })
         .then((resp: any) => {
           expect(resp.body).to.be.equal('response1');
         }).
-        then(() => { done() }, () => { done() }).
-        catch(done);
-
-        done();
-        return Promise.resolve();
+        then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
+        catch(() => { done(); Promise.resolve(); });
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
