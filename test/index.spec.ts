@@ -46,7 +46,7 @@ describe('Mocha VCR', function() {
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
 
-    vcr.createTest('can be read with a done param', (done) => {
+    vcr.createTest('can be read with a done param', function(done) {
       response = 'incorrectResponse';
       try {
         got(url, { prefixUrl: url_root })
