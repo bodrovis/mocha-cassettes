@@ -126,7 +126,7 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
   public register(suite: mocha.Suite,  options: RegistrationOptions = { failIfNoCassette: false}): void {
     const originalFn: any = this.fn;
 
-    this.fn = (done?: mocha.Done): PromiseLike<any> => {
+    this.fn = (done?: mocha.Done): PromiseLike<any> | undefined => {
       try {
         if (!this.actionSpecified) {
           if (this.cassetteExists(this.getCassetteFilePath())) {

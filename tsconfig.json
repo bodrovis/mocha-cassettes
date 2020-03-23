@@ -6,8 +6,8 @@
     "sourceMap": true,
     "rootDirs": ["src", "node_modules"],
     "typeRoots": ["node_modules/@types"],
-    "noImplicitAny": false,
-    "strictNullChecks": false
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
   "files": [
     "./src/index.ts"

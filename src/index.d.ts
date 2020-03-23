@@ -12,18 +12,18 @@ declare module 'mocha-cassettes' {
 	  recordCassette(cassetteFileName?: string): ICompilable;
 	}
 
-	export function TestVcr(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaVcr;
+	export function TestCassettes(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaCassettes;
 
 
-	export class Vcr {
+	export class Cassettes {
 	  private cassettePath: string;
 	  constructor(cassettePath: string);
-	  public createTest(title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaVcr;
+	  public createTest(title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaCassettes;
 	  public removeAllCassettes(): Promise<void>;
 	}
 
 
-	export class MochaVcr extends mocha.Test implements ICompilable, IRecordable, IPlayable {
+	export class MochaCassettes extends mocha.Test implements ICompilable, IRecordable, IPlayable {
 	  private cassettePath: string;
 	  private fnPrefix: () => void;
 	  private fnSuffix: () => void;
@@ -33,7 +33,7 @@ declare module 'mocha-cassettes' {
 	  public recordCassette(cassetteFileName?: string): ICompilable;
 	  public playCassette(cassetteFileName?: string): ICompilable;
 	  public selectCassetteAction(fn: () => 'record' | 'play', cassettePath?: string): ICompilable;
-	  public register(suite: mocha.Suite,  options: RegistrationOptions = { failIfNoCassette: false}): void;
+	  public register(suite: mocha.Suite, options: RegistrationOptions = { failIfNoCassette: false}): void;
 	  private resetNock();
 	  private cassetteExists(filePath: string): boolean;
 	  private getCassetteFilePath(filename?: string): string;
