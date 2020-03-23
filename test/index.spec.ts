@@ -47,6 +47,7 @@ describe('Mocha VCR', function() {
     ).register(this);
 
     vcr.createTest('can be read with a done param', (done) => {
+      response = 'incorrectResponse';
       try {
         got(url, { prefixUrl: url_root })
           .then((resp: any) => {
