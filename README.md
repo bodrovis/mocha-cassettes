@@ -1,6 +1,6 @@
 # Mocha VCR
 
-[![Build Status](https://travis-ci.org/bodrovis/mocha-vcr.svg?branch=master)](https://travis-ci.org/bodrovis/mocha-vcr)
+[![Build Status](https://travis-ci.org/bodrovis/mocha-cassettes.svg?branch=master)](https://travis-ci.org/bodrovis/mocha-cassettes)
 
 Record HTTP interactions in your Node.js tests.
 
