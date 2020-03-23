@@ -117,17 +117,17 @@ describe('Mocha VCR', function() {
   // If it is implemented properly, then only the third test will fail, and it will be a timeout error
   describe('timeout suite', function() {
     // record
-    vcr.createTest('can handle a timeout', async () => {
-      const resp = await got(url, { prefixUrl: url_root });
-      expect(resp.body).to.be.equal('response1');
-    }).register(this);
+  //  vcr.createTest('can handle a timeout', async () => {
+  //    const resp = await got(url, { prefixUrl: url_root });
+  //    expect(resp.body).to.be.equal('response1');
+  //  }).register(this);
 
     // replay
-    vcr.createTest('can handle a timeout', async () => {
-      response = 'incorrectResponse';
-      const resp = await got(url, { prefixUrl: url_root });
-      expect(resp.body).to.be.equal('response1');
-    }).register(this);
+  //  vcr.createTest('can handle a timeout', async () => {
+  //    response = 'incorrectResponse';
+  //    const resp = await got(url, { prefixUrl: url_root });
+  //    expect(resp.body).to.be.equal('response1');
+//}).register(this);
 
     //vcr.createTest('can handle a timeout', (done) => {
     //  setTimeout(() => {
@@ -138,10 +138,10 @@ describe('Mocha VCR', function() {
     //  .register(this)
 
     // replay
-    vcr.createTest('can handle a timeout', async () => {
-      response = 'incorrectResponse';
-      const resp = await got(url, { prefixUrl: url_root });
-      expect(resp.body).to.be.equal('response1');
-    }).register(this);
+//    vcr.createTest('can handle a timeout', async () => {
+  //    response = 'incorrectResponse';
+  //    const resp = await got(url, { prefixUrl: url_root });
+  //    expect(resp.body).to.be.equal('response1');
+  //  }).register(this);
   });
 });
