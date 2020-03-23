@@ -83,7 +83,8 @@ describe('Mocha VCR', function() {
       response = 'incorrectResponse';
       //const resp = await got(url, { prefixUrl: url_root });
       const resp = await rp.get(`http://localhost:${PORT}/test`);
-      expect(resp.body).to.be.equal(response);
+      //expect(resp.body).to.be.equal(response);
+      expect(resp).to.be.equal(response);
     });
   });
 
