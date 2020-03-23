@@ -4,7 +4,6 @@ import express = require('express');
 import http = require('http');
 import path = require('path');
 import got from 'got';
-import * as rp from 'request-promise';
 
 const PORT = 8675;
 const url = "test";
@@ -34,74 +33,47 @@ describe('Mocha VCR', function() {
 
   describe('Mocks the http requests that were recorded', function() {
     vcr.createTest('can be written', async () => {
-      //const resp = await got(url, { prefixUrl: url_root });
-      //expect(resp.body).to.be.equal('response1');
-      const resp = await rp.get(`http://localhost:${PORT}/test`);
-      expect(resp).to.be.equal('response1');
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
     }).
       recordCassette().
       register(this);
 
     vcr.createTest('can be read with an async function', async () => {
-      //  const resp = await got(url, { prefixUrl: url_root });
-      //  expect(resp.body).to.be.equal('response1');
-      response = 'incorrectResponse';
-      const resp = await rp.get(`http://localhost:${PORT}/test`);
-      expect(resp).to.be.equal('response1');
-    }).playCassette(
-      'Mocha VCR mocks the http requests that were recorded can be written.cassette'
-    ).register(this);
-
-    vcr.createTest('can be read with a done param', function(done) {
-      response = 'incorrectResponse';
-      rp.get(`http://localhost:${PORT}/test`)
-        .then((resp) => expect(resp).to.be.equal('response1'))
-        // tslint:disable-next-line:no-unnecessary-callback-wrapper
-        .then(() => done())
-        .catch(done);
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
 
     vcr.createTest('can be read with a returned promise', () => {
-      //response = 'incorrectResponse';
-      //return got(url, { prefixUrl: url_root }).
-      //then((resp: any) => {
-      //  expect(resp.body).to.be.equal('response1');
-      //});
       response = 'incorrectResponse';
-
-      return rp.get(`http://localhost:${PORT}/test`)
-        .then((resp) => expect(resp).to.be.equal('response1'));
+      return got(url, { prefixUrl: url_root }).
+      then((resp: any) => {
+        expect(resp.body).to.be.equal('response1');
+      });
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
 
     it('will not affect non mocked cases', async () => {
       response = 'incorrectResponse';
-      //const resp = await got(url, { prefixUrl: url_root });
-      const resp = await rp.get(`http://localhost:${PORT}/test`);
-      //expect(resp.body).to.be.equal(response);
-      expect(resp).to.be.equal(response);
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal(response);
     });
   });
 
   describe('Non specified action cases work as expected', function() {
     // the names for these tests must remain the same to map to the same fixture
     vcr.createTest('record case', async () => {
-      //const resp = await got(url, { prefixUrl: url_root });
-      //expect(resp.body).to.be.equal('response1');
-      const resp = await rp.get(`http://localhost:${PORT}/test`);
-      expect(resp).to.be.equal('response1');
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
     }).register(this);
 
     vcr.createTest('record case', async () => {
-      //  response = 'incorrectResponse';
-      //  const resp = await got(url, { prefixUrl: url_root });
-      //  expect(resp.body).to.be.equal('response1');
       response = 'incorrectResponse';
-      const resp = await rp.get(`http://localhost:${PORT}/test`);
-      expect(resp).to.be.equal('response1');
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
     }).register(this);
   });
 
@@ -131,17 +103,17 @@ describe('Mocha VCR', function() {
   // If it is implemented properly, then only the third test will fail, and it will be a timeout error
   describe('timeout suite', function() {
     // record
-    //  vcr.createTest('can handle a timeout', async () => {
-    //    const resp = await got(url, { prefixUrl: url_root });
-    //    expect(resp.body).to.be.equal('response1');
-    //  }).register(this);
+    vcr.createTest('can handle a timeout', async () => {
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
+    }).register(this);
 
     // replay
-    //  vcr.createTest('can handle a timeout', async () => {
-    //    response = 'incorrectResponse';
-    //    const resp = await got(url, { prefixUrl: url_root });
-    //    expect(resp.body).to.be.equal('response1');
-    //}).register(this);
+    vcr.createTest('can handle a timeout', async () => {
+      response = 'incorrectResponse';
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
+    }).register(this);
 
     //vcr.createTest('can handle a timeout', (done) => {
     //  setTimeout(() => {
@@ -152,10 +124,10 @@ describe('Mocha VCR', function() {
     //  .register(this)
 
     // replay
-    //    vcr.createTest('can handle a timeout', async () => {
-    //    response = 'incorrectResponse';
-    //    const resp = await got(url, { prefixUrl: url_root });
-    //    expect(resp.body).to.be.equal('response1');
-    //  }).register(this);
+    vcr.createTest('can handle a timeout', async () => {
+      response = 'incorrectResponse';
+      const resp = await got(url, { prefixUrl: url_root });
+      expect(resp.body).to.be.equal('response1');
+    }).register(this);
   });
 });
