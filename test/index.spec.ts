@@ -4,6 +4,7 @@ import express = require('express');
 import http = require('http');
 import path = require('path');
 import got from 'got';
+import * as rp from 'request-promise';
 
 const PORT = 8675;
 const url = "test";
@@ -80,7 +81,8 @@ describe('Mocha VCR', function() {
 
     it('will not affect non mocked cases', async () => {
       response = 'incorrectResponse';
-      const resp = await got(url, { prefixUrl: url_root });
+      //const resp = await got(url, { prefixUrl: url_root });
+      const resp = await rp.get(`http://localhost:${PORT}/test`);
       expect(resp.body).to.be.equal(response);
     });
   });
