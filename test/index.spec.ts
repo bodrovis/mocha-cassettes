@@ -49,22 +49,11 @@ describe('Mocha VCR', function() {
 
     vcr.createTest('can be read with a done param', function(done) {
       response = 'incorrectResponse';
-      try {
-        got(url, { prefixUrl: url_root })
-          .then((resp: any) => {
-            expect(resp.body).to.be.equal('response1');
-          }).
-          then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
-          catch(() => { console.log("======= BIDA"); done(); }).
-          finally(() => { console.log("======= finallY"); done(); });
-      } catch {
-        console.log('bida!!!!!')
-      }
-
-
-        //.
-      //  then(() => { done(); Promise.resolve(); }, () => { done(); Promise.resolve(); }).
-      //  catch(() => { console.log("======= BIDA"); done(); });
+      rp.get(`http://localhost:${PORT}/test`)
+        .then((resp) => expect(resp).to.be.equal('response1'))
+        // tslint:disable-next-line:no-unnecessary-callback-wrapper
+        .then(() => done())
+        .catch(done);
     }).playCassette(
       'Mocha VCR mocks the http requests that were recorded can be written.cassette'
     ).register(this);
