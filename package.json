@@ -1,18 +1,19 @@
 {
-  "name": "mocha-vcr",
+  "name": "mocha-cassettes",
   "version": "0.0.1-alpha",
-  "description": "VCR for Mocha",
+  "description": "Record HTTP interactions in your Mocha tests",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "github:bodrovis/mocha-vcr"
+    "url": "github:bodrovis/mocha-cassettes"
   },
   "keywords": [
     "vcr",
     "mocha",
     "test",
     "record",
-    "http"
+    "http",
+    "cassettes"
   ],
   "scripts": {
     "build": "tsc",
@@ -40,7 +41,7 @@
     "lib": "./src",
     "test": "./test"
   },
-  "homepage": "https://github.com/bodrovis/mocha-vcr#readme",
+  "homepage": "https://github.com/bodrovis/mocha-cassettes#readme",
   "main": ".dist/index.js",
   "maintainers": [
     {
@@ -51,7 +52,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/bodrovis/mocha-vcr/issues",
+    "url": "https://github.com/bodrovis/mocha-cassettes/issues",
     "email": "golosizpru@gmail.com"
   },
   "engines": {
