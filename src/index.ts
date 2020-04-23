@@ -57,8 +57,8 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
   constructor(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc) {
     super(title, fn);
     this.cassettePath = cassettePath;
-    this.fnPrefix = () => {};
-    this.fnSuffix = () => {};
+    this.fnPrefix = () => { };
+    this.fnSuffix = () => { };
 
     this.actionSpecified = false;
   }
@@ -123,7 +123,7 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
     return fn() === 'record' ? this.recordCassette() : this.playCassette(cassettePath);
   }
 
-  public register(suite: mocha.Suite,  options: RegistrationOptions = { failIfNoCassette: false}): void {
+  public register(suite: mocha.Suite, options: RegistrationOptions = { failIfNoCassette: false }): void {
     const originalFn: any = this.fn;
 
     this.fn = (done?: mocha.Done): PromiseLike<any> | undefined => {
@@ -163,6 +163,8 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
                 .then((res) => {
                   done(res);
                 });
+            } else {
+              return undefined;
             }
           })
           .then(() => this.fnSuffix())
@@ -171,13 +173,17 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
             this.resetNock.bind(this);
           });
 
-          // if we return with a done fn defined, we get the error Resolution method is overspecified.
-        if (!done) {
+        // if we return with a done fn defined, we get the error Resolution method is overspecified.
+        if (done) {
+          return undefined;
+        }
+        else {
           return testExecutedPromise;
         }
-      } catch(e) {
+      } catch (e) {
         // catches timeout errors. Mocha magic handles the rest. NOTE, this is incredibly hard to test for
         this.resetNock();
+        return undefined;
       }
     };
 

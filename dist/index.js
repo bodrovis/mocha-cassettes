@@ -126,6 +126,9 @@ class MochaCassettes extends mocha.Test {
                             done(res);
                         });
                     }
+                    else {
+                        return undefined;
+                    }
                 })
                     .then(() => this.fnSuffix())
                     .then(this.resetNock.bind(this))
@@ -133,13 +136,17 @@ class MochaCassettes extends mocha.Test {
                     this.resetNock.bind(this);
                 });
                 // if we return with a done fn defined, we get the error Resolution method is overspecified.
-                if (!done) {
+                if (done) {
+                    return undefined;
+                }
+                else {
                     return testExecutedPromise;
                 }
             }
             catch (e) {
                 // catches timeout errors. Mocha magic handles the rest. NOTE, this is incredibly hard to test for
                 this.resetNock();
+                return undefined;
             }
         };
         suite.addTest(this);

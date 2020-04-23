@@ -1,6 +1,6 @@
 {
   "name": "mocha-cassettes",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Record HTTP interactions in your Mocha tests",
   "license": "MIT",
   "repository": {
@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/bodrovis/mocha-cassettes#readme",
   "main": "./dist/index.js",
-  "typings": "./src/index.d.ts",
+  "typings": "./dist/index.d.ts",
   "maintainers": [
     {
       "name": "Ilya Bodrov"
