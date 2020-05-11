@@ -20,7 +20,7 @@
     "test": "tsc && mocha -r ts-node/register --recursive test/**/*.spec.ts --timeout 10000"
   },
   "dependencies": {
-    "mocha": "^7.1.1",
+    "mocha": "^7.1.2",
     "nock": "^12.0.3",
     "rimraf": "^3.0.2",
     "sanitize-filename": "^1.6.1"
@@ -33,8 +33,8 @@
     "@types/rimraf": "^3.0.0",
     "chai": "^4.2.0",
     "express": "^4.16.4",
-    "got": "^11.0.2",
-    "ts-node": "^8.9.0",
+    "got": "^11.1.3",
+    "ts-node": "^8.10.1",
     "typescript": "^3.1.3"
   },
   "directories": {
