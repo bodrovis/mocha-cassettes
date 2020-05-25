@@ -1,11 +1,11 @@
 // Adapted from https://github.com/fossas/mocha-tape-deck/blob/master/src/index.ts
 
-import fs = require('fs');
-import nock = require('nock');
-import * as mocha from 'mocha';
-import path = require('path');
-import rimraf = require('rimraf');
-import sanitize = require('sanitize-filename');
+import fs = require("fs");
+import nock = require("nock");
+import * as mocha from "mocha";
+import path = require("path");
+import rimraf = require("rimraf");
+import sanitize = require("sanitize-filename");
 
 export type RegistrationOptions = {
   failIfNoCassette: boolean;
@@ -24,41 +24,22 @@ export interface IPlayable {
   playCassette(cassetteFileName?: string): ICompilable;
 }
 
-export function TestCassettes(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaCassettes {
-  return new MochaCassettes(cassettePath, title, fn);
-}
-
-export class Cassettes {
-  private cassettePath: string;
-
-  constructor(cassettePath: string) {
-    this.cassettePath = cassettePath;
-  }
-
-  public createTest(title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaCassettes {
-    return new MochaCassettes(this.cassettePath, title, fn);
-  }
-
-  public removeAllCassettes(): Promise<void> {
-    return new Promise((res, rej) => {
-      rimraf(this.cassettePath, (err) => {
-        if (err) { rej(err); } else { res(); }
-      });
-    });
-  }
-}
-
-export class MochaCassettes extends mocha.Test implements ICompilable, IRecordable, IPlayable {
+export class MochaCassettes extends mocha.Test
+  implements ICompilable, IRecordable, IPlayable {
   private cassettePath: string;
   private fnPrefix: () => void;
   private fnSuffix: () => void;
   private actionSpecified: boolean;
 
-  constructor(cassettePath: string, title: string, fn?: mocha.Func | mocha.AsyncFunc) {
+  constructor(
+    cassettePath: string,
+    title: string,
+    fn?: mocha.Func | mocha.AsyncFunc
+  ) {
     super(title, fn);
     this.cassettePath = cassettePath;
-    this.fnPrefix = () => { };
-    this.fnSuffix = () => { };
+    this.fnPrefix = () => {};
+    this.fnSuffix = () => {};
 
     this.actionSpecified = false;
   }
@@ -80,20 +61,25 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
       }
 
       if (fs.existsSync(this.getCassetteFilePath(cassetteFileName))) {
-        cassetteFilePath = cassetteFileName ? path.join(this.cassettePath, cassetteFileName) : this.getCassetteFilePath();
+        cassetteFilePath = cassetteFileName
+          ? path.join(this.cassettePath, cassetteFileName)
+          : this.getCassetteFilePath();
         fs.unlinkSync(cassetteFilePath);
       }
 
-      nock.recorder.rec(({
+      nock.recorder.rec({
         dont_print: true,
         use_separator: false,
-        output_objects: true
-      }));
+        output_objects: true,
+      });
     };
 
     this.fnSuffix = () => {
       const res = nock.recorder.play();
-      fs.writeFileSync(this.getCassetteFilePath(cassetteFileName), JSON.stringify(res, null, 2));
+      fs.writeFileSync(
+        this.getCassetteFilePath(cassetteFileName),
+        JSON.stringify(res, null, 2)
+      );
     };
 
     return this;
@@ -113,17 +99,24 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
       }
     };
 
-    this.fnSuffix = () => {
-    };
+    this.fnSuffix = () => {};
 
     return this;
   }
 
-  public selectCassetteAction(fn: () => 'record' | 'play', cassettePath?: string): ICompilable {
-    return fn() === 'record' ? this.recordCassette() : this.playCassette(cassettePath);
+  public selectCassetteAction(
+    fn: () => "record" | "play",
+    cassettePath?: string
+  ): ICompilable {
+    return fn() === "record"
+      ? this.recordCassette()
+      : this.playCassette(cassettePath);
   }
 
-  public register(suite: mocha.Suite, options: RegistrationOptions = { failIfNoCassette: false }): void {
+  public register(
+    suite: mocha.Suite,
+    options: RegistrationOptions = { failIfNoCassette: false }
+  ): void {
     const originalFn: any = this.fn;
 
     this.fn = (done?: mocha.Done): PromiseLike<any> | undefined => {
@@ -133,7 +126,9 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
             this.playCassette();
           } else {
             if (options.failIfNoCassette) {
-              throw new Error('Expected cassette file for mocha tape-deck player does not exist');
+              throw new Error(
+                "Expected cassette file for mocha tape-deck player does not exist"
+              );
             }
             this.recordCassette();
           }
@@ -144,7 +139,7 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
 
         let doneWrapper: any;
         const donePromise = new Promise((res) => {
-          doneWrapper = res
+          doneWrapper = res;
         });
 
         const returnVal = originalFn(done ? doneWrapper : undefined);
@@ -159,10 +154,9 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
         testExecutedPromise
           .then(() => {
             if (done) {
-              return donePromise
-                .then((res) => {
-                  done(res);
-                });
+              return donePromise.then((res) => {
+                done(res);
+              });
             } else {
               return undefined;
             }
@@ -176,8 +170,7 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
         // if we return with a done fn defined, we get the error Resolution method is overspecified.
         if (done) {
           return undefined;
-        }
-        else {
+        } else {
           return testExecutedPromise;
         }
       } catch (e) {
@@ -206,6 +199,41 @@ export class MochaCassettes extends mocha.Test implements ICompilable, IRecordab
 
   private getCassetteName(filename?: string): string {
     // remove all spaces and /, replace them with _ and - respectively
-    return sanitize(filename || this.fullTitle()) + '.cassette';
+    return sanitize(filename || this.fullTitle()) + ".cassette";
+  }
+}
+
+export function TestCassettes(
+  cassettePath: string,
+  title: string,
+  fn?: mocha.Func | mocha.AsyncFunc
+): MochaCassettes {
+  return new MochaCassettes(cassettePath, title, fn);
+}
+
+export class Cassettes {
+  private cassettePath: string;
+
+  constructor(cassettePath: string) {
+    this.cassettePath = cassettePath;
+  }
+
+  public createTest(
+    title: string,
+    fn?: mocha.Func | mocha.AsyncFunc
+  ): MochaCassettes {
+    return new MochaCassettes(this.cassettePath, title, fn);
+  }
+
+  public removeAllCassettes(): Promise<void> {
+    return new Promise((res, rej) => {
+      rimraf(this.cassettePath, (err) => {
+        if (err) {
+          rej(err);
+        } else {
+          res();
+        }
+      });
+    });
   }
 }

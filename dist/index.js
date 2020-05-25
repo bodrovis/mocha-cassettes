@@ -1,37 +1,13 @@
 "use strict";
 // Adapted from https://github.com/fossas/mocha-tape-deck/blob/master/src/index.ts
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Cassettes = exports.TestCassettes = exports.MochaCassettes = void 0;
 const fs = require("fs");
 const nock = require("nock");
 const mocha = require("mocha");
 const path = require("path");
 const rimraf = require("rimraf");
 const sanitize = require("sanitize-filename");
-function TestCassettes(cassettePath, title, fn) {
-    return new MochaCassettes(cassettePath, title, fn);
-}
-exports.TestCassettes = TestCassettes;
-class Cassettes {
-    constructor(cassettePath) {
-        this.cassettePath = cassettePath;
-    }
-    createTest(title, fn) {
-        return new MochaCassettes(this.cassettePath, title, fn);
-    }
-    removeAllCassettes() {
-        return new Promise((res, rej) => {
-            rimraf(this.cassettePath, (err) => {
-                if (err) {
-                    rej(err);
-                }
-                else {
-                    res();
-                }
-            });
-        });
-    }
-}
-exports.Cassettes = Cassettes;
 class MochaCassettes extends mocha.Test {
     constructor(cassettePath, title, fn) {
         super(title, fn);
@@ -54,14 +30,16 @@ class MochaCassettes extends mocha.Test {
                 fs.mkdirSync(this.cassettePath);
             }
             if (fs.existsSync(this.getCassetteFilePath(cassetteFileName))) {
-                cassetteFilePath = cassetteFileName ? path.join(this.cassettePath, cassetteFileName) : this.getCassetteFilePath();
+                cassetteFilePath = cassetteFileName
+                    ? path.join(this.cassettePath, cassetteFileName)
+                    : this.getCassetteFilePath();
                 fs.unlinkSync(cassetteFilePath);
             }
-            nock.recorder.rec(({
+            nock.recorder.rec({
                 dont_print: true,
                 use_separator: false,
-                output_objects: true
-            }));
+                output_objects: true,
+            });
         };
         this.fnSuffix = () => {
             const res = nock.recorder.play();
@@ -81,12 +59,13 @@ class MochaCassettes extends mocha.Test {
                 nock.activate();
             }
         };
-        this.fnSuffix = () => {
-        };
+        this.fnSuffix = () => { };
         return this;
     }
     selectCassetteAction(fn, cassettePath) {
-        return fn() === 'record' ? this.recordCassette() : this.playCassette(cassettePath);
+        return fn() === "record"
+            ? this.recordCassette()
+            : this.playCassette(cassettePath);
     }
     register(suite, options = { failIfNoCassette: false }) {
         const originalFn = this.fn;
@@ -98,7 +77,7 @@ class MochaCassettes extends mocha.Test {
                     }
                     else {
                         if (options.failIfNoCassette) {
-                            throw new Error('Expected cassette file for mocha tape-deck player does not exist');
+                            throw new Error("Expected cassette file for mocha tape-deck player does not exist");
                         }
                         this.recordCassette();
                     }
@@ -121,8 +100,7 @@ class MochaCassettes extends mocha.Test {
                 testExecutedPromise
                     .then(() => {
                     if (done) {
-                        return donePromise
-                            .then((res) => {
+                        return donePromise.then((res) => {
                             done(res);
                         });
                     }
@@ -164,8 +142,33 @@ class MochaCassettes extends mocha.Test {
     }
     getCassetteName(filename) {
         // remove all spaces and /, replace them with _ and - respectively
-        return sanitize(filename || this.fullTitle()) + '.cassette';
+        return sanitize(filename || this.fullTitle()) + ".cassette";
     }
 }
 exports.MochaCassettes = MochaCassettes;
+function TestCassettes(cassettePath, title, fn) {
+    return new MochaCassettes(cassettePath, title, fn);
+}
+exports.TestCassettes = TestCassettes;
+class Cassettes {
+    constructor(cassettePath) {
+        this.cassettePath = cassettePath;
+    }
+    createTest(title, fn) {
+        return new MochaCassettes(this.cassettePath, title, fn);
+    }
+    removeAllCassettes() {
+        return new Promise((res, rej) => {
+            rimraf(this.cassettePath, (err) => {
+                if (err) {
+                    rej(err);
+                }
+                else {
+                    res();
+                }
+            });
+        });
+    }
+}
+exports.Cassettes = Cassettes;
 //# sourceMappingURL=index.js.map
