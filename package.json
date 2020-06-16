@@ -1,6 +1,6 @@
 {
   "name": "mocha-cassettes",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Record HTTP interactions in your Mocha tests",
   "license": "MIT",
   "repository": {
@@ -20,7 +20,7 @@
     "test": "tsc && mocha -r ts-node/register --recursive test/**/*.spec.ts --timeout 10000"
   },
   "dependencies": {
-    "mocha": "^7.2.0",
+    "mocha": "^8.0.1",
     "nock": "^12.0.3",
     "rimraf": "^3.0.2",
     "sanitize-filename": "^1.6.1"
@@ -31,19 +31,19 @@
     "@types/mocha": "^7.0.2",
     "@types/request-promise": "^4.1.46",
     "@types/rimraf": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/eslint-plugin": "^3.3.0",
+    "@typescript-eslint/parser": "^3.3.0",
     "chai": "^4.2.0",
-    "express": "^4.16.4",
-    "eslint": "^6.8.0",
+    "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-prettier": "^3.1.4",
+    "express": "^4.16.4",
+    "got": "^11.3.0",
     "prettier": "2.0.5",
-    "got": "^11.1.4",
-    "ts-node": "^8.10.1",
     "source-map-support": "^0.5.19",
-    "typescript": "^3.9.3"
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   },
   "directories": {
     "lib": "./src",

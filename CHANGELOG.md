@@ -1,5 +1,10 @@
 # MochaCassettes Changelog
 
+# 1.0.0 (16-Jun-20)
+
+* Officially stable and production-ready release
+* Update all dependencies
+
 # 0.1.0 (23-Apr-20)
 
 * Add stricter compiler options

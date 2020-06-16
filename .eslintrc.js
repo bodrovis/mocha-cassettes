@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "modules": true
@@ -32,10 +32,10 @@ module.exports = {
         "assertionStyle": "angle-bracket"
       }
     ],
+    "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-unpublished-import": "off",
