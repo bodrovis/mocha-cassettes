@@ -1,5 +1,9 @@
 # MochaCassettes Changelog
 
+## 1.2.1 (03-Nov-20)
+
+* Update deps
+
 ## 1.1.0 (09-Sep-20)
 
 * Update deps
