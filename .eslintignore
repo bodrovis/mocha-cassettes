@@ -6,7 +6,5 @@ dist
 coverage
 
 .github
-
 samples
-
 main.d.ts
