@@ -1,7 +1,7 @@
 # MochaCassettes
 
 [![npm version](https://badge.fury.io/js/mocha-cassettes.svg)](https://badge.fury.io/js/mocha-cassettes)
-[![Build Status](https://travis-ci.org/bodrovis/mocha-cassettes.svg?branch=master)](https://travis-ci.org/bodrovis/mocha-cassettes)
+[![Build Status](https://travis-ci.com/bodrovis/mocha-cassettes.svg?branch=master)](https://travis-ci.com/github/bodrovis/mocha-cassettes)
 
 Node.js library based on [Nock](https://github.com/nock/nock) to record HTTP interactions in [Mocha](https://mochajs.org/) tests.
 
