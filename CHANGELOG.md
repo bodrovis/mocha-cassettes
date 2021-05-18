@@ -1,5 +1,11 @@
 # MochaCassettes Changelog
 
+## 1.2.3 (18-May-21)
+
+* Update deps
+* Test with Node 16
+* Do not test with Node 10 (EOL)
+
 ## 1.2.2 (28-Jan-21)
 
 * Update deps

@@ -26,7 +26,8 @@ export interface IPlayable {
 
 export class MochaCassettes
   extends mocha.Test
-  implements ICompilable, IRecordable, IPlayable {
+  implements ICompilable, IRecordable, IPlayable
+{
   private cassettePath: string;
   private fnPrefix: () => void;
   private fnSuffix: () => void;
