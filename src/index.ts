@@ -129,7 +129,7 @@ export class MochaCassettes
           } else {
             if (options.failIfNoCassette) {
               throw new Error(
-                "Expected cassette file for mocha tape-deck player does not exist"
+                "Expected cassette file for mocha-cassettes does not exist"
               );
             }
             this.recordCassette();

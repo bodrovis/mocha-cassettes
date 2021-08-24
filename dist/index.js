@@ -77,7 +77,7 @@ class MochaCassettes extends mocha.Test {
                     }
                     else {
                         if (options.failIfNoCassette) {
-                            throw new Error("Expected cassette file for mocha tape-deck player does not exist");
+                            throw new Error("Expected cassette file for mocha-cassettes does not exist");
                         }
                         this.recordCassette();
                     }
