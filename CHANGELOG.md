@@ -1,5 +1,11 @@
 # MochaCassettes Changelog
 
+## 1.2.5 (23-Feb-22)
+
+* Update deps
+* Update test matrix
+* Use ts-mocha instead of hooking ts-node directly
+
 ## 1.2.4 (14-Aug-21)
 
 * Update deps
