@@ -9,6 +9,10 @@ const path = require("path");
 const rimraf = require("rimraf");
 const sanitize = require("sanitize-filename");
 class MochaCassettes extends mocha.Test {
+    cassettePath;
+    fnPrefix;
+    fnSuffix;
+    actionSpecified;
     constructor(cassettePath, title, fn) {
         super(title, fn);
         this.cassettePath = cassettePath;
@@ -151,6 +155,7 @@ function TestCassettes(cassettePath, title, fn) {
 }
 exports.TestCassettes = TestCassettes;
 class Cassettes {
+    cassettePath;
     constructor(cassettePath) {
         this.cassettePath = cassettePath;
     }

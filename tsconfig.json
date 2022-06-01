@@ -22,8 +22,7 @@
     "strict": true
   },
   "files": [
-    "./src/index.ts",
-    "./test/index.spec.ts"
+    "./src/index.ts"
   ],
   "include": [
     "src/**/*.ts"
