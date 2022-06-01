@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2022",
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "rootDirs": ["src", "node_modules"],
     "typeRoots": ["node_modules/@types"],
     "noImplicitAny": true,
@@ -22,7 +22,8 @@
     "strict": true
   },
   "files": [
-    "./src/index.ts"
+    "./src/index.ts",
+    "./test/index.spec.ts"
   ],
   "include": [
     "src/**/*.ts"

@@ -1,5 +1,10 @@
 # MochaCassettes Changelog
 
+## 1.2.6 (01-Jun-22)
+
+* Update deps
+* Use newer TS compiler
+
 ## 1.2.5 (23-Feb-22)
 
 * Update deps
