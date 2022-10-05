@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitThis": true,
     "strictFunctionTypes": true,
-    "strict": true
+    "strict": true,
+    "esModuleInterop": true
   },
   "files": [
     "./src/index.ts"

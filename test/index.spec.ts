@@ -1,17 +1,17 @@
 import { expect } from "chai";
 import { Cassettes } from "./../src/index";
-import express = require("express");
-import http = require("http");
-import path = require("path");
-import got from "got";
+import express from "express";
+import { Server } from "http";
+import { join } from "path";
+import axios, { AxiosResponse } from "axios";
 
 const PORT = 8675;
 const url = "test";
 const url_root = `http://localhost:${PORT}`;
 
 describe("Mocha VCR", function () {
-  let server: http.Server;
-  const cassette = new Cassettes(path.join(__dirname, "cassettes"));
+  let server: Server;
+  const cassette = new Cassettes(join(__dirname, "cassettes"));
   let response: any;
 
   beforeEach((done) => {
@@ -34,16 +34,16 @@ describe("Mocha VCR", function () {
   describe("Mocks the http requests that were recorded", function () {
     cassette
       .createTest("can be written", async () => {
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .recordCassette()
       .register(this);
 
     cassette
       .createTest("can be read with an async function", async () => {
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .playCassette(
         "Mocha VCR mocks the http requests that were recorded can be written.cassette"
@@ -53,9 +53,11 @@ describe("Mocha VCR", function () {
     cassette
       .createTest("can be read with a returned promise", () => {
         response = "incorrectResponse";
-        return got(url, { prefixUrl: url_root }).then((resp: any) => {
-          expect(resp.body).to.be.equal("response1");
-        });
+        return axios
+          .get(url, { baseURL: url_root })
+          .then((resp: AxiosResponse) => {
+            expect(resp.data).to.be.equal("response1");
+          });
       })
       .playCassette(
         "Mocha VCR mocks the http requests that were recorded can be written.cassette"
@@ -64,8 +66,8 @@ describe("Mocha VCR", function () {
 
     it("will not affect non mocked cases", async () => {
       response = "incorrectResponse";
-      const resp = await got(url, { prefixUrl: url_root });
-      expect(resp.body).to.be.equal(response);
+      const resp = await axios.get(url, { baseURL: url_root });
+      expect(resp.data).to.be.equal(response);
     });
   });
 
@@ -73,16 +75,16 @@ describe("Mocha VCR", function () {
     // the names for these tests must remain the same to map to the same fixture
     cassette
       .createTest("record case", async () => {
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .register(this);
 
     cassette
       .createTest("record case", async () => {
         response = "incorrectResponse";
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .register(this);
   });
@@ -123,8 +125,8 @@ describe("Mocha VCR", function () {
     // record
     cassette
       .createTest("can handle a timeout", async () => {
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .register(this);
 
@@ -132,8 +134,8 @@ describe("Mocha VCR", function () {
     cassette
       .createTest("can handle a timeout", async () => {
         response = "incorrectResponse";
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .register(this);
 
@@ -149,8 +151,8 @@ describe("Mocha VCR", function () {
     cassette
       .createTest("can handle a timeout", async () => {
         response = "incorrectResponse";
-        const resp = await got(url, { prefixUrl: url_root });
-        expect(resp.body).to.be.equal("response1");
+        const resp = await axios.get(url, { baseURL: url_root });
+        expect(resp.data).to.be.equal("response1");
       })
       .register(this);
   });
