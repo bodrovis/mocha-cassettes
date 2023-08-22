@@ -1,11 +1,11 @@
 // Adapted from https://github.com/fossas/mocha-tape-deck/blob/master/src/index.ts
 
-import fs = require("fs");
-import nock = require("nock");
+import fs from "fs";
+import nock from "nock";
 import * as mocha from "mocha";
-import path = require("path");
-import rimraf = require("rimraf");
-import sanitize = require("sanitize-filename");
+import path from "path";
+import { rimraf } from "rimraf";
+import sanitize from "sanitize-filename";
 
 export type RegistrationOptions = {
   failIfNoCassette: boolean;
@@ -36,7 +36,7 @@ export class MochaCassettes
   constructor(
     cassettePath: string,
     title: string,
-    fn?: mocha.Func | mocha.AsyncFunc
+    fn?: mocha.Func | mocha.AsyncFunc,
   ) {
     super(title, fn);
     this.cassettePath = cassettePath;
@@ -80,7 +80,7 @@ export class MochaCassettes
       const res = nock.recorder.play();
       fs.writeFileSync(
         this.getCassetteFilePath(cassetteFileName),
-        JSON.stringify(res, null, 2)
+        JSON.stringify(res, null, 2),
       );
     };
 
@@ -108,7 +108,7 @@ export class MochaCassettes
 
   public selectCassetteAction(
     fn: () => "record" | "play",
-    cassettePath?: string
+    cassettePath?: string,
   ): ICompilable {
     return fn() === "record"
       ? this.recordCassette()
@@ -117,7 +117,7 @@ export class MochaCassettes
 
   public register(
     suite: mocha.Suite,
-    options: RegistrationOptions = { failIfNoCassette: false }
+    options: RegistrationOptions = { failIfNoCassette: false },
   ): void {
     const originalFn: any = this.fn;
 
@@ -129,7 +129,7 @@ export class MochaCassettes
           } else {
             if (options.failIfNoCassette) {
               throw new Error(
-                "Expected cassette file for mocha-cassettes does not exist"
+                "Expected cassette file for mocha-cassettes does not exist",
               );
             }
             this.recordCassette();
@@ -208,7 +208,7 @@ export class MochaCassettes
 export function TestCassettes(
   cassettePath: string,
   title: string,
-  fn?: mocha.Func | mocha.AsyncFunc
+  fn?: mocha.Func | mocha.AsyncFunc,
 ): MochaCassettes {
   return new MochaCassettes(cassettePath, title, fn);
 }
@@ -222,20 +222,12 @@ export class Cassettes {
 
   public createTest(
     title: string,
-    fn?: mocha.Func | mocha.AsyncFunc
+    fn?: mocha.Func | mocha.AsyncFunc,
   ): MochaCassettes {
     return new MochaCassettes(this.cassettePath, title, fn);
   }
 
-  public removeAllCassettes(): Promise<void> {
-    return new Promise((res, rej) => {
-      rimraf(this.cassettePath, (err) => {
-        if (err) {
-          rej(err);
-        } else {
-          res();
-        }
-      });
-    });
+  public removeAllCassettes(): Promise<boolean> {
+    return rimraf(this.cassettePath);
   }
 }

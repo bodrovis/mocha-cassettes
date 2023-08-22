@@ -46,7 +46,7 @@ describe("Mocha VCR", function () {
         expect(resp.data).to.be.equal("response1");
       })
       .playCassette(
-        "Mocha VCR mocks the http requests that were recorded can be written.cassette"
+        "Mocha VCR mocks the http requests that were recorded can be written.cassette",
       )
       .register(this);
 
@@ -60,7 +60,7 @@ describe("Mocha VCR", function () {
           });
       })
       .playCassette(
-        "Mocha VCR mocks the http requests that were recorded can be written.cassette"
+        "Mocha VCR mocks the http requests that were recorded can be written.cassette",
       )
       .register(this);
 

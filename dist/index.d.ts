@@ -1,5 +1,5 @@
 import * as mocha from "mocha";
-export declare type RegistrationOptions = {
+export type RegistrationOptions = {
     failIfNoCassette: boolean;
 };
 export interface ICompilable {
@@ -32,5 +32,5 @@ export declare class Cassettes {
     private cassettePath;
     constructor(cassettePath: string);
     createTest(title: string, fn?: mocha.Func | mocha.AsyncFunc): MochaCassettes;
-    removeAllCassettes(): Promise<void>;
+    removeAllCassettes(): Promise<boolean>;
 }
