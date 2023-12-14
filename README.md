@@ -2,6 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/mocha-cassettes)
 ![CI](https://github.com/bodrovis/mocha-cassettes/actions/workflows/ci.yml/badge.svg)
+![Downloads total](https://img.shields.io/npm/dt/bodrovis/mocha-cassettes)
 
 Node.js library based on [Nock](https://github.com/nock/nock) to record HTTP interactions in [Mocha](https://mochajs.org/) tests.
 

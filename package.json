@@ -17,7 +17,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "tsc && ts-mocha -p tsconfig.json --type-check --recursive test/**/*.spec.ts --timeout 5000"
+    "test": "tsc && ts-mocha -p tsconfig.json --type-check --recursive test/**/*.spec.ts --timeout 5000",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "mocha": "^10.0.0",
