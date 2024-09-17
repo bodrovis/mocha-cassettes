@@ -7,7 +7,14 @@
 		"type": "git",
 		"url": "https://github.com/bodrovis/mocha-cassettes.git"
 	},
-	"keywords": ["vcr", "mocha", "test", "record", "http", "cassettes"],
+	"keywords": [
+		"vcr",
+		"mocha",
+		"test",
+		"record",
+		"http",
+		"cassettes"
+	],
 	"scripts": {
 		"build": "tsc",
 		"test": "tsc && ts-mocha -p tsconfig.json --type-check --recursive test/**/*.spec.ts --timeout 5000",
@@ -31,6 +38,7 @@
 		"express": "^4.16.4",
 		"source-map-support": "^0.5.19",
 		"ts-mocha": "^10.0.0",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.1.6"
 	},
 	"directories": {
