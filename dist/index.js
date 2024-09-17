@@ -27,11 +27,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cassettes = exports.TestCassettes = exports.MochaCassettes = void 0;
+exports.Cassettes = exports.MochaCassettes = void 0;
+exports.TestCassettes = TestCassettes;
 const fs_1 = __importDefault(require("fs"));
-const nock_1 = __importDefault(require("nock"));
-const mocha = __importStar(require("mocha"));
 const path_1 = __importDefault(require("path"));
+const mocha = __importStar(require("mocha"));
+const nock_1 = __importDefault(require("nock"));
 const rimraf_1 = require("rimraf");
 const sanitize_filename_1 = __importDefault(require("sanitize-filename"));
 class MochaCassettes extends mocha.Test {
@@ -42,8 +43,12 @@ class MochaCassettes extends mocha.Test {
     constructor(cassettePath, title, fn) {
         super(title, fn);
         this.cassettePath = cassettePath;
-        this.fnPrefix = () => { };
-        this.fnSuffix = () => { };
+        this.fnPrefix = () => {
+            // Intentionally left empty
+        };
+        this.fnSuffix = () => {
+            // Intentionally left empty
+        };
         this.actionSpecified = false;
     }
     recordCassette(cassetteFileName) {
@@ -89,7 +94,9 @@ class MochaCassettes extends mocha.Test {
                 nock_1.default.activate();
             }
         };
-        this.fnSuffix = () => { };
+        this.fnSuffix = () => {
+            // Intentionally left empty
+        };
         return this;
     }
     selectCassetteAction(fn, cassettePath) {
@@ -151,7 +158,7 @@ class MochaCassettes extends mocha.Test {
                     return testExecutedPromise;
                 }
             }
-            catch (e) {
+            catch (_e) {
                 // catches timeout errors. Mocha magic handles the rest. NOTE, this is incredibly hard to test for
                 this.resetNock();
                 return undefined;
@@ -179,7 +186,6 @@ exports.MochaCassettes = MochaCassettes;
 function TestCassettes(cassettePath, title, fn) {
     return new MochaCassettes(cassettePath, title, fn);
 }
-exports.TestCassettes = TestCassettes;
 class Cassettes {
     cassettePath;
     constructor(cassettePath) {

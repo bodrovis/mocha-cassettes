@@ -1,5 +1,10 @@
 # MochaCassettes Changelog
 
+## 1.4.0 (17-Sep-24)
+
+* Update deps
+* Test with Node 21 and 22
+
 ## 1.3.0 (22-Aug-23)
 
 * Update deps to major versions
